@@ -16,9 +16,9 @@ const Catalog = () => {
 
   const { data: cars, isLoading } = useCars({
     search: search || undefined,
-    make: make || undefined,
-    bodyType: bodyType || undefined,
-    fuelType: fuelType || undefined,
+    make: make && make !== 'all' ? make : undefined,
+    bodyType: bodyType && bodyType !== 'all' ? bodyType : undefined,
+    fuelType: fuelType && fuelType !== 'all' ? fuelType : undefined,
   });
 
   return (
@@ -43,7 +43,7 @@ const Catalog = () => {
                 <SelectValue placeholder="Марка" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все марки</SelectItem>
+                <SelectItem value="all">Все марки</SelectItem>
                 {CAR_MAKES.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
               </SelectContent>
             </Select>
@@ -52,7 +52,7 @@ const Catalog = () => {
                 <SelectValue placeholder="Кузов" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все типы</SelectItem>
+                <SelectItem value="all">Все типы</SelectItem>
                 {BODY_TYPES.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}
               </SelectContent>
             </Select>
@@ -61,7 +61,7 @@ const Catalog = () => {
                 <SelectValue placeholder="Топливо" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Все</SelectItem>
+                <SelectItem value="all">Все</SelectItem>
                 {FUEL_TYPES.map(f => <SelectItem key={f} value={f}>{f}</SelectItem>)}
               </SelectContent>
             </Select>
