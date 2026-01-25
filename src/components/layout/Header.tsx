@@ -56,11 +56,18 @@ export function Header() {
             <div className="hidden md:flex items-center gap-3">
               {user ? (
                 <>
-                  {(isAdmin || isManager) && (
+                  {(isAdmin || isManager) ? (
                     <Link to="/dashboard">
                       <Button variant="outline" size="sm" className="gap-2">
                         <LayoutDashboard className="w-4 h-4" />
                         Панель
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link to="/client">
+                      <Button variant="outline" size="sm" className="gap-2">
+                        <User className="w-4 h-4" />
+                        Кабинет
                       </Button>
                     </Link>
                   )}
@@ -71,10 +78,10 @@ export function Header() {
                 </>
               ) : (
                 <>
-                  <Link to="/login">
+                  <Link to="/client/login">
                     <Button variant="ghost" size="sm">Вход</Button>
                   </Link>
-                  <Link to="/register">
+                  <Link to="/client/register">
                     <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
                       Регистрация
                     </Button>
@@ -118,11 +125,18 @@ export function Header() {
                 <div className="h-px bg-border my-2" />
                 {user ? (
                   <>
-                    {(isAdmin || isManager) && (
+                    {(isAdmin || isManager) ? (
                       <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
                         <Button variant="outline" className="w-full justify-start gap-2">
                           <LayoutDashboard className="w-4 h-4" />
                           Панель управления
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Link to="/client" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="outline" className="w-full justify-start gap-2">
+                          <User className="w-4 h-4" />
+                          Личный кабинет
                         </Button>
                       </Link>
                     )}
@@ -133,10 +147,10 @@ export function Header() {
                   </>
                 ) : (
                   <>
-                    <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/client/login" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="ghost" className="w-full">Вход</Button>
                     </Link>
-                    <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/client/register" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full bg-primary text-primary-foreground">
                         Регистрация
                       </Button>
