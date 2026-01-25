@@ -191,6 +191,7 @@ export type Database = {
           customer_phone: string
           id: string
           message: string | null
+          rating_token: string | null
           source: string | null
           status: Database["public"]["Enums"]["lead_status"]
           updated_at: string
@@ -204,6 +205,7 @@ export type Database = {
           customer_phone: string
           id?: string
           message?: string | null
+          rating_token?: string | null
           source?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
@@ -217,6 +219,7 @@ export type Database = {
           customer_phone?: string
           id?: string
           message?: string | null
+          rating_token?: string | null
           source?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
