@@ -11,8 +11,10 @@ export function useLeads(managerId?: string) {
         .select('*, cars(make, model, year, public_price)')
         .order('created_at', { ascending: false });
 
+      // If managerId specified, filter by it (for backward compat)
+      // Otherwise RLS will handle visibility (new + own for managers, all for admins)
       if (managerId) {
-        query = query.eq('assigned_manager_id', managerId);
+        query = query.or(`assigned_manager_id.eq.${managerId},assigned_manager_id.is.null`);
       }
 
       const { data, error } = await query;
@@ -53,7 +55,7 @@ export function useUpdateLead() {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: async ({ id, ...updates }: Partial<Lead> & { id: string }) => {
+    mutationFn: async ({ id, ...updates }: Partial<Lead> & { id: string; assigned_manager_id?: string }) => {
       const { data, error } = await supabase
         .from('leads')
         .update(updates)
@@ -90,5 +92,31 @@ export function useLeadStats() {
       
       return stats;
     },
+  });
+}
+
+// Получить заявку по токену для страницы оценки
+export function useLeadByToken(token: string | null) {
+  return useQuery({
+    queryKey: ['lead', 'token', token],
+    queryFn: async () => {
+      if (!token) return null;
+      
+      const { data, error } = await supabase
+        .from('leads')
+        .select(`
+          id, 
+          customer_name, 
+          status,
+          assigned_manager_id,
+          rating_token
+        `)
+        .eq('rating_token', token)
+        .maybeSingle();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!token,
   });
 }

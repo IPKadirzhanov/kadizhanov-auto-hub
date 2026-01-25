@@ -70,6 +70,7 @@ export interface Lead {
   status: LeadStatus;
   assigned_manager_id: string | null;
   source: string | null;
+  rating_token: string | null;
   created_at: string;
   updated_at: string;
 }

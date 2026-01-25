@@ -54,7 +54,7 @@ const Login = () => {
             </Button>
           </form>
           <p className="text-center text-sm text-muted-foreground mt-4">
-            Нет аккаунта? <Link to="/register" className="text-primary hover:underline">Регистрация</Link>
+            Вход только для менеджеров и администраторов
           </p>
         </CardContent>
       </Card>
