@@ -17,24 +17,23 @@ Deno.serve(async (req) => {
     // Client with service role for admin operations
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Get auth header and validate JWT
+    // Get auth header and validate user
     const authHeader = req.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
       throw new Error("No authorization header");
     }
     
-    const token = authHeader.replace("Bearer ", "");
     const supabaseClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } }
     });
     
-    // Validate JWT using getClaims (required for Lovable Cloud ES256 tokens)
-    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
-      throw new Error("Invalid token");
+    // Validate user using getUser (works with session tokens)
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
+    if (userError || !user) {
+      throw new Error("Unauthorized - please login");
     }
     
-    const userId = claimsData.claims.sub as string;
+    const userId = user.id;
     
     const { data: isAdmin } = await supabaseAdmin
       .from("user_roles")
