@@ -10,13 +10,13 @@ import CarDetails from "./pages/CarDetails";
 import Calculator from "./pages/Calculator";
 import About from "./pages/About";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AdminCars from "./pages/admin/AdminCars";
 import AdminLeads from "./pages/admin/AdminLeads";
 import AdminManagers from "./pages/admin/AdminManagers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import ManagerLeads from "./pages/manager/ManagerLeads";
+import RateLead from "./pages/RateLead";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,13 +35,13 @@ const App = () => (
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin/cars" element={<AdminCars />} />
             <Route path="/admin/leads" element={<AdminLeads />} />
             <Route path="/admin/managers" element={<AdminManagers />} />
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/manager/leads" element={<ManagerLeads />} />
+            <Route path="/rate" element={<RateLead />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
