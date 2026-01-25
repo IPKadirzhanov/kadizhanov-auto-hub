@@ -76,9 +76,9 @@ export function DashboardLayout({ children, title }: DashboardLayoutProps) {
 
         <div className="p-4 border-t border-sidebar-border">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-full bg-sidebar-accent flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-sidebar-accent flex items-center justify-center">
               <span className="text-sm font-medium">
-                {profile?.full_name?.charAt(0) || user?.email?.charAt(0) || 'U'}
+                {profile?.full_name?.charAt(0) || 'А'}
               </span>
             </div>
             <div className="flex-1 min-w-0">
