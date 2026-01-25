@@ -18,39 +18,41 @@ interface LeadFormProps {
 export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState('');
+  const [ratingToken, setRatingToken] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
   const createLead = useCreateLead();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createLead.mutateAsync({
-        customer_name: name,
+      const result = await createLead.mutateAsync({
+        customer_name: `${firstName} ${lastName}`.trim(),
         customer_phone: phone,
-        customer_email: email || undefined,
         car_id: carId,
-        message: message || undefined,
         source: 'website'
       });
+      setRatingToken(result.rating_token);
       setSubmitted(true);
-      setTimeout(() => {
-        setOpen(false);
-        setSubmitted(false);
-        setName('');
-        setPhone('');
-        setEmail('');
-        setMessage('');
-      }, 2000);
     } catch {
       toast.error('Ошибка отправки заявки');
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    setTimeout(() => {
+      setSubmitted(false);
+      setRatingToken(null);
+      setFirstName('');
+      setLastName('');
+      setPhone('');
+    }, 300);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => isOpen ? setOpen(true) : handleClose()}>
       <DialogTrigger asChild>
         {trigger || (
           <Button className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
@@ -69,22 +71,53 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="py-10 text-center"
+            className="py-10 text-center space-y-4"
           >
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Заявка отправлена!</h3>
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
+            <h3 className="text-xl font-semibold">Заявка отправлена!</h3>
             <p className="text-muted-foreground">Мы свяжемся с вами в ближайшее время</p>
+            
+            {ratingToken && (
+              <div className="mt-6 p-4 bg-secondary rounded-lg">
+                <p className="text-sm text-muted-foreground mb-2">
+                  Сохраните эту ссылку, чтобы следить за статусом заявки:
+                </p>
+                <a 
+                  href={`/lead-status?token=${ratingToken}`}
+                  className="text-primary hover:underline text-sm break-all"
+                >
+                  {window.location.origin}/lead-status?token={ratingToken}
+                </a>
+              </div>
+            )}
+            
+            <Button onClick={handleClose} variant="outline" className="mt-4">
+              Закрыть
+            </Button>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-            <div className="space-y-2">
-              <Label>Ваше имя *</Label>
-              <Input 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-                required 
-                className="bg-secondary border-0"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Имя *</Label>
+                <Input 
+                  value={firstName} 
+                  onChange={(e) => setFirstName(e.target.value)} 
+                  required 
+                  placeholder="Иван"
+                  className="bg-secondary border-0"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Фамилия *</Label>
+                <Input 
+                  value={lastName} 
+                  onChange={(e) => setLastName(e.target.value)} 
+                  required 
+                  placeholder="Иванов"
+                  className="bg-secondary border-0"
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label>Телефон *</Label>
@@ -93,25 +126,6 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
                 onChange={(e) => setPhone(e.target.value)} 
                 required 
                 placeholder="+7 (___) ___-__-__"
-                className="bg-secondary border-0"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Email</Label>
-              <Input 
-                type="email"
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                className="bg-secondary border-0"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Сообщение</Label>
-              <Textarea 
-                value={message} 
-                onChange={(e) => setMessage(e.target.value)} 
-                rows={3}
-                placeholder="Ваши пожелания или вопросы..."
                 className="bg-secondary border-0"
               />
             </div>

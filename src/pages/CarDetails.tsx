@@ -2,10 +2,12 @@ import { useParams } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { PriceCalculator } from '@/components/cars/PriceCalculator';
 import { AIChat } from '@/components/chat/AIChat';
+import { LeadForm } from '@/components/forms/LeadForm';
 import { useCar } from '@/hooks/useCars';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { CAR_STATUSES } from '@/lib/constants';
-import { Calendar, Fuel, Gauge, Settings2, Palette } from 'lucide-react';
+import { Calendar, Fuel, Gauge, Settings2, Send } from 'lucide-react';
 
 const CarDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -91,6 +93,15 @@ const CarDetails = () => {
               <p className="text-3xl font-bold text-gold-gradient mb-4">
                 {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'KZT', maximumFractionDigits: 0 }).format(car.public_price)}
               </p>
+              <LeadForm 
+                carId={car.id} 
+                carName={`${car.make} ${car.model} ${car.year}`}
+                trigger={
+                  <Button className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Send className="w-4 h-4" /> Оставить заявку
+                  </Button>
+                }
+              />
             </div>
             <PriceCalculator initialPrice={car.public_price} />
           </div>
