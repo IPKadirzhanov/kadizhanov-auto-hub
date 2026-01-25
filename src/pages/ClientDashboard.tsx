@@ -34,7 +34,7 @@ const ClientDashboard = () => {
   }, [authLoading, user, navigate]);
 
   // Fetch client's leads
-  const { data: leads, isLoading: leadsLoading } = useQuery({
+  const { data: leads, isLoading: leadsLoading, refetch } = useQuery({
     queryKey: ['client-leads', user?.id],
     queryFn: async () => {
       if (!user) return [];
@@ -89,6 +89,7 @@ const ClientDashboard = () => {
       return leadsWithManagers;
     },
     enabled: !!user,
+    refetchInterval: 10000, // Auto-refresh every 10 seconds
   });
 
   const handleSignOut = async () => {
