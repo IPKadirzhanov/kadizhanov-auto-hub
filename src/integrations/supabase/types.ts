@@ -185,6 +185,7 @@ export type Database = {
         Row: {
           assigned_manager_id: string | null
           car_id: string | null
+          client_user_id: string | null
           created_at: string
           customer_email: string | null
           customer_name: string
@@ -199,6 +200,7 @@ export type Database = {
         Insert: {
           assigned_manager_id?: string | null
           car_id?: string | null
+          client_user_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name: string
@@ -213,6 +215,7 @@ export type Database = {
         Update: {
           assigned_manager_id?: string | null
           car_id?: string | null
+          client_user_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name?: string

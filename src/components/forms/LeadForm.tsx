@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useCreateLead } from '@/hooks/useLeads';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, User } from 'lucide-react';
 
 interface LeadFormProps {
   carId?: string;
@@ -16,6 +17,7 @@ interface LeadFormProps {
 }
 
 export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
+  const { user, profile } = useAuth();
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [ratingToken, setRatingToken] = useState<string | null>(null);
@@ -24,6 +26,16 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
   const [phone, setPhone] = useState('');
   const createLead = useCreateLead();
 
+  // Pre-fill form for logged-in users
+  useEffect(() => {
+    if (user && profile) {
+      const nameParts = (profile.full_name || '').split(' ');
+      setFirstName(nameParts[0] || '');
+      setLastName(nameParts.slice(1).join(' ') || '');
+      setPhone(profile.phone || '');
+    }
+  }, [user, profile, open]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -31,7 +43,8 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
         customer_name: `${firstName} ${lastName}`.trim(),
         customer_phone: phone,
         car_id: carId,
-        source: 'website'
+        source: 'website',
+        client_user_id: user?.id
       });
       setRatingToken(result.rating_token);
       setSubmitted(true);
@@ -77,7 +90,14 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
             <h3 className="text-xl font-semibold">Заявка отправлена!</h3>
             <p className="text-muted-foreground">Мы свяжемся с вами в ближайшее время</p>
             
-            {ratingToken && (
+            {user ? (
+              <div className="mt-6 p-4 bg-primary/10 rounded-lg text-center">
+                <User className="w-8 h-8 mx-auto text-primary mb-2" />
+                <p className="text-sm">
+                  Заявка сохранена в вашем <Link to="/client" className="text-primary hover:underline font-medium">личном кабинете</Link>
+                </p>
+              </div>
+            ) : ratingToken && (
               <div className="mt-6 p-4 bg-secondary rounded-lg">
                 <p className="text-sm text-muted-foreground mb-2">
                   Сохраните эту ссылку, чтобы следить за статусом заявки:
@@ -88,6 +108,16 @@ export function LeadForm({ carId, carName, trigger }: LeadFormProps) {
                 >
                   {window.location.origin}/lead-status?token={ratingToken}
                 </a>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Или зарегистрируйтесь для удобного отслеживания:
+                  </p>
+                  <Link to="/client/register">
+                    <Button variant="outline" size="sm" className="w-full">
+                      Создать аккаунт
+                    </Button>
+                  </Link>
+                </div>
               </div>
             )}
             

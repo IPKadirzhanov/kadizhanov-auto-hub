@@ -35,6 +35,7 @@ export function useCreateLead() {
       car_id?: string;
       message?: string;
       source?: string;
+      client_user_id?: string;
     }) => {
       const { data, error } = await supabase
         .from('leads')
@@ -47,6 +48,7 @@ export function useCreateLead() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
+      queryClient.invalidateQueries({ queryKey: ['client-leads'] });
     },
   });
 }

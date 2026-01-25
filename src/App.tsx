@@ -18,6 +18,9 @@ import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import ManagerLeads from "./pages/manager/ManagerLeads";
 import RateLead from "./pages/RateLead";
 import LeadStatus from "./pages/LeadStatus";
+import ClientRegister from "./pages/ClientRegister";
+import ClientLogin from "./pages/ClientLogin";
+import ClientDashboard from "./pages/ClientDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +47,9 @@ const App = () => (
             <Route path="/manager/leads" element={<ManagerLeads />} />
             <Route path="/rate" element={<RateLead />} />
             <Route path="/lead-status" element={<LeadStatus />} />
+            <Route path="/client" element={<ClientDashboard />} />
+            <Route path="/client/login" element={<ClientLogin />} />
+            <Route path="/client/register" element={<ClientRegister />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
