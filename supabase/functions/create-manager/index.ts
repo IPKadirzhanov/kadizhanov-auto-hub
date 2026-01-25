@@ -17,26 +17,29 @@ Deno.serve(async (req) => {
     // Client with service role for admin operations
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Client with user token to verify admin status
+    // Get auth header and validate JWT
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
+    if (!authHeader?.startsWith("Bearer ")) {
       throw new Error("No authorization header");
     }
     
+    const token = authHeader.replace("Bearer ", "");
     const supabaseClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } }
     });
     
-    // Verify user is admin
-    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
-    if (userError || !user) {
-      throw new Error("Unauthorized");
+    // Validate JWT using getClaims (required for Lovable Cloud ES256 tokens)
+    const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
+    if (claimsError || !claimsData?.claims) {
+      throw new Error("Invalid token");
     }
+    
+    const userId = claimsData.claims.sub as string;
     
     const { data: isAdmin } = await supabaseAdmin
       .from("user_roles")
       .select("role")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .eq("role", "admin")
       .maybeSingle();
     

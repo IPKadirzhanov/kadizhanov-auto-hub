@@ -1,1 +1,4 @@
 project_id = "siehysxnsivdefahrdko"
+
+[functions.create-manager]
+verify_jwt = false
