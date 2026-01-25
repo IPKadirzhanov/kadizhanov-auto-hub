@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,9 +8,17 @@ import { useCars } from '@/hooks/useCars';
 import { Car, FileText, Users, TrendingUp } from 'lucide-react';
 
 const Dashboard = () => {
-  const { isAdmin, profile } = useAuth();
+  const navigate = useNavigate();
+  const { isAdmin, isManager, isLoading: authLoading, profile } = useAuth();
   const { data: leadStats } = useLeadStats();
   const { data: cars } = useCars();
+
+  // Redirect managers to their leads page
+  useEffect(() => {
+    if (!authLoading && isManager && !isAdmin) {
+      navigate('/manager/leads', { replace: true });
+    }
+  }, [authLoading, isManager, isAdmin, navigate]);
 
   const stats = [
     { 

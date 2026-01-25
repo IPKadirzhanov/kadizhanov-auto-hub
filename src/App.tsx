@@ -17,6 +17,7 @@ import AdminManagers from "./pages/admin/AdminManagers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import ManagerLeads from "./pages/manager/ManagerLeads";
 import RateLead from "./pages/RateLead";
+import LeadStatus from "./pages/LeadStatus";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/manager/leads" element={<ManagerLeads />} />
             <Route path="/rate" element={<RateLead />} />
+            <Route path="/lead-status" element={<LeadStatus />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
