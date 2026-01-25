@@ -15,20 +15,12 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children, title }: DashboardLayoutProps) {
-  const { user, profile, isAdmin, isManager, isLoading, signOut } = useAuth();
+  const { profile, signOut } = useAuth();
   const location = useLocation();
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
-
-  if (!user || (!isAdmin && !isManager)) {
-    return <Navigate to="/login" replace />;
-  }
+  // Demo mode - always show admin view
+  const isAdmin = true;
+  const isManager = false;
 
   const adminLinks = [
     { href: '/dashboard', icon: Home, label: 'Обзор' },
