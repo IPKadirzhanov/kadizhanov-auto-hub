@@ -3,7 +3,7 @@ import { Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Car, Users, FileText, BarChart3, Settings, Home, 
-  LogOut, ChevronRight, Trophy
+  LogOut, ChevronRight, Trophy, Star
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -27,6 +27,7 @@ export function DashboardLayout({ children, title }: DashboardLayoutProps) {
     { href: '/admin/cars', icon: Car, label: 'Автомобили' },
     { href: '/admin/leads', icon: FileText, label: 'Заявки' },
     { href: '/admin/managers', icon: Users, label: 'Менеджеры' },
+    { href: '/admin/reviews', icon: Star, label: 'Отзывы' },
     { href: '/admin/analytics', icon: BarChart3, label: 'Аналитика' },
   ];
 
