@@ -42,9 +42,9 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Контакты</h3>
             <div className="flex flex-col gap-3">
-              <a href="tel:+77001234567" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-smooth text-sm">
+              <a href="tel:+77479481318" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-smooth text-sm">
                 <Phone className="w-4 h-4" />
-                +7 (700) 123-45-67
+                +7 (747) 948-13-18
               </a>
               <a href="mailto:info@kadirzhanov.kz" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-smooth text-sm">
                 <Mail className="w-4 h-4" />
