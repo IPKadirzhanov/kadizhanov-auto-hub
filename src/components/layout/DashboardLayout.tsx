@@ -15,12 +15,8 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children, title }: DashboardLayoutProps) {
-  const { profile, signOut } = useAuth();
+  const { profile, signOut, isAdmin, isManager } = useAuth();
   const location = useLocation();
-
-  // Demo mode - always show admin view
-  const isAdmin = true;
-  const isManager = false;
 
   const adminLinks = [
     { href: '/dashboard', icon: Home, label: 'Обзор' },
