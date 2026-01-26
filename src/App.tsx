@@ -15,6 +15,7 @@ import AdminCars from "./pages/admin/AdminCars";
 import AdminLeads from "./pages/admin/AdminLeads";
 import AdminManagers from "./pages/admin/AdminManagers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminReviews from "./pages/admin/AdminReviews";
 import ManagerLeads from "./pages/manager/ManagerLeads";
 import RateLead from "./pages/RateLead";
 import LeadStatus from "./pages/LeadStatus";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/admin/leads" element={<AdminLeads />} />
             <Route path="/admin/managers" element={<AdminManagers />} />
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/reviews" element={<AdminReviews />} />
             <Route path="/manager/leads" element={<ManagerLeads />} />
             <Route path="/rate" element={<RateLead />} />
             <Route path="/lead-status" element={<LeadStatus />} />
