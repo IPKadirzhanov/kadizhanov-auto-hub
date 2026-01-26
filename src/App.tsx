@@ -17,6 +17,7 @@ import AdminManagers from "./pages/admin/AdminManagers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminReviews from "./pages/admin/AdminReviews";
 import ManagerLeads from "./pages/manager/ManagerLeads";
+import ManagerScores from "./pages/manager/ManagerScores";
 import RateLead from "./pages/RateLead";
 import LeadStatus from "./pages/LeadStatus";
 import ClientRegister from "./pages/ClientRegister";
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/admin/reviews" element={<AdminReviews />} />
             <Route path="/manager/leads" element={<ManagerLeads />} />
+            <Route path="/manager/scores" element={<ManagerScores />} />
             <Route path="/rate" element={<RateLead />} />
             <Route path="/lead-status" element={<LeadStatus />} />
             <Route path="/client" element={<ClientDashboard />} />
