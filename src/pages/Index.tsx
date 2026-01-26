@@ -44,7 +44,7 @@ const Index = () => {
                   Смотреть каталог <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <a href="tel:+77001234567">
+              <a href="tel:+77479481318">
                 <Button size="lg" variant="outline" className="gap-2">
                   <Phone className="w-5 h-5" /> Позвонить
                 </Button>
